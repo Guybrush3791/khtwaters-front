@@ -1,24 +1,24 @@
 <template>
   <q-page>
     <h4 class="text-center">Book Manager</h4>
+    <q-input
+      v-model="search"
+      outlined
+      placeholder="Search"
+      class="q-my-xl q-mx-auto q-px-md"
+      dense
+    >
+      <template v-slot:prepend>
+        <q-icon name="search" />
+      </template>
+      <template v-slot:append>
+        <q-icon name="close" v-if="search" @click="search = ''" />
+      </template>
+    </q-input>
     <div
       v-if="books.length > 0"
-      class="q-gutter-md flex flex-wrap justify-around q-mr-md"
+      class="q-gutter-md flex flex-wrap justify-around q-mr-md q-mb-xl"
     >
-      <q-input
-        v-model="search"
-        outlined
-        placeholder="Search"
-        class="q-mb-md"
-        dense
-      >
-        <template v-slot:prepend>
-          <q-icon name="search" />
-        </template>
-        <template v-slot:append>
-          <q-icon name="close" v-if="search" @click="search = ''" />
-        </template>
-      </q-input>
       <book-component
         v-for="book in books.filter(
           (book) =>
@@ -41,10 +41,10 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
-import BookComponent from "src/components/Guest/BookComponent.vue";
-import BookDialog from "src/components/Guest/BookDialog.vue";
+import BookComponent from "@/components/Guest/BookComponent.vue";
+import BookDialog from "@/components/Guest/BookDialog.vue";
 
-import guestBookService from "src/services/guestBookService";
+import guestBookService from "@/services/guestBookService";
 
 const search = ref("");
 const books = ref([]);
@@ -60,3 +60,9 @@ onMounted(async () => {
   books.value = await guestBookService.getBooks();
 });
 </script>
+
+<style scoped>
+.q-input {
+  max-width: 400px;
+}
+</style>

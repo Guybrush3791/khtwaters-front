@@ -1,7 +1,9 @@
 <template>
   <q-drawer v-model="openDrawer" show-if-above bordered>
     <q-toolbar class="bg-primary text-white text-center">
-      <q-toolbar-title class="text-h5"> KHT </q-toolbar-title>
+      <q-toolbar-title class="text-h5">
+        LibraLux <q-chip label="by KHT" class="text-primary" />
+      </q-toolbar-title>
     </q-toolbar>
     <q-list>
       <div
@@ -132,6 +134,11 @@ const buildEntries = () => {
       label: "Settings",
       link: "/dashboard/settings",
       invisible: !loggedIn.value,
+    },
+    {
+      icon: "info",
+      label: "About",
+      link: "/about",
     },
   ];
 };

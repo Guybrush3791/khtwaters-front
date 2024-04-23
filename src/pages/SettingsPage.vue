@@ -33,7 +33,6 @@
             clearable
             lazy-rules
             :type="isPwd ? 'password' : 'text'"
-            :rules="[(val) => !!val || 'Required']"
           >
             <template v-slot:append>
               <q-icon
@@ -54,6 +53,12 @@
             label="Updated"
           />
           <q-card-actions class="justify-end">
+            <q-btn
+              flat
+              label="Cancel"
+              type="submit"
+              @click="$router.push('/dashboard')"
+            />
             <q-btn flat label="Update" class="text-primary" type="submit" />
           </q-card-actions>
         </q-form>
@@ -64,8 +69,11 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 import loginService from "src/services/loginService";
+
+const $router = useRouter();
 
 const me = ref({
   name: "",
@@ -88,6 +96,8 @@ const onSubmit = async () => {
 
   if (res === true) loginSuccess.value = true;
   else loginError.value = true;
+
+  me.value.password = "";
 };
 
 onMounted(async () => {

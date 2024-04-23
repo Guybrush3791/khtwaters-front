@@ -3,7 +3,7 @@ import apiService from "./apiService";
 export default {
   isAdmin() {
     return apiService
-      .get("/admin/is-admin")
+      .get("/user/is-admin")
       .then((response) => {
         return response.data;
       })
@@ -64,8 +64,14 @@ export default {
   getMe() {
     if (localStorage.getItem("userToken") == null) return false;
 
-    return apiService.get("/user/me").then((response) => {
-      return response.data;
-    });
+    return apiService
+      .get("/user/me")
+      .then((response) => {
+        return response.data;
+      })
+      .catch(() => {
+        localStorage.removeItem("userToken");
+        return false;
+      });
   },
 };

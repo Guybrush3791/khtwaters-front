@@ -1,16 +1,20 @@
 import apiService from "./apiService";
 
 export default {
-  getMyBooks() {
-    return apiService.get("/user/books").then((response) => {
-      return response.data;
+  async getMyBooks() {
+    return (await apiService.get("/user/books")).data.map((book) => {
+      book.images = JSON.parse(book.images);
+      return book;
     });
   },
-  getMyBookById(id) {
+  async getMyBookById(id) {
     return apiService
       .get(`/user/books/${id}`)
       .then((response) => {
-        return response.data;
+        const book = response.data;
+        book.images = JSON.parse(book.images);
+
+        return book;
       })
       .catch(() => false);
   },

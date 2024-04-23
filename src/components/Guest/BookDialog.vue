@@ -1,34 +1,33 @@
 <template>
-  <image-dialog
-    v-model="openImage"
-    image="https://cdn.quasar.dev/img/parallax2.jpg"
-  />
+  <image-dialog v-model="openImage" :image="openedImage" />
   <q-dialog v-model="openDialog" full-width>
     <q-card>
       <q-card-section class="q-px-none q-pt-none">
         <q-img
-          src="https://cdn.quasar.dev/img/parallax2.jpg"
+          :src="cover"
           class="full-width book-cover"
+          @click="onImageClick(cover)"
+          :class="{ empty: !cover }"
         >
           <div class="absolute-top text-h6">{{ book.name }}</div>
         </q-img>
       </q-card-section>
 
       <q-card-section>
-        <q-scroll-area style="height: 200px; max-width: 300px" class="q-px-md">
+        <q-scroll-area style="height: 200px" class="q-px-md">
           <span class="text-justify">{{ book.description }}</span>
         </q-scroll-area>
       </q-card-section>
 
       <q-card-section>
-        <q-scroll-area style="height: 100px; max-width: 300px">
+        <q-scroll-area style="height: 100px">
           <div class="row no-wrap">
             <q-img
               v-for="(image, ind) in book.images"
               :key="ind"
-              src="https://cdn.quasar.dev/img/parallax2.jpg"
+              :src="images[image]"
               class="book-images q-mx-md"
-              @click="openImage = true"
+              @click="onImageClick(images[image])"
             />
           </div>
         </q-scroll-area>
@@ -62,10 +61,12 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useQuasar } from "quasar";
 
 import ImageDialog from "src/components/Shared/ImageDialog.vue";
+
+import resourceService from "@/services/resourceService";
 
 const $q = useQuasar();
 const emits = defineEmits(["close", "delete"]);
@@ -73,6 +74,10 @@ const emits = defineEmits(["close", "delete"]);
 const openDialog = defineModel();
 
 const openImage = ref(false);
+const openedImage = ref(null);
+
+const cover = ref(null);
+const images = ref({});
 
 const props = defineProps({
   book: {
@@ -85,6 +90,11 @@ const props = defineProps({
   },
 });
 
+const onImageClick = (image) => {
+  openImage.value = true;
+  openedImage.value = image;
+};
+
 const onDelete = (id) => {
   $q.dialog({
     title: "Delete",
@@ -95,11 +105,28 @@ const onDelete = (id) => {
     emits("delete", id);
   });
 };
+
+const updateImages = async () => {
+  if (props.book?.cover ?? false)
+    cover.value = await resourceService.getCover(props.book);
+  else cover.value = null;
+
+  if (props.book?.images ?? false)
+    images.value = await resourceService.getImages(props.book);
+  else images.value = {};
+};
+
+watch(() => props.book, updateImages);
+onMounted(updateImages);
 </script>
 
 <style scoped>
 .book-cover {
-  height: 150px;
+  height: 12rem;
+
+  &.empty {
+    height: 4rem;
+  }
 }
 .book-images {
   height: 100px;

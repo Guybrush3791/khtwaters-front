@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="openDialog.value" full-width>
+  <q-dialog v-model="openDialog.value">
     <q-card>
       <q-card-section>
         <div class="text-h6">Login</div>
@@ -115,12 +115,5 @@ const onSubmit = async () => {
 
   if (res) window.location = "/dashboard";
   else loginError.value = true;
-};
-
-// DEBUG
-data.value = {
-  name: "Guybrush",
-  email: "guybrush@mail.com",
-  password: "pws",
 };
 </script>

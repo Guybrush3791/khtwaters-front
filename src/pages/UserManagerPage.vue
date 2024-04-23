@@ -81,6 +81,11 @@
                   v-for="book in selectedUser.books"
                   :key="book.id"
                   class="q-my-none"
+                  @click="
+                    selectedBook = book;
+                    selectedBookOpen = true;
+                  "
+                  clickable
                 >
                   <q-item-section>{{ book.name }}</q-item-section>
                 </q-item>
@@ -94,11 +99,18 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    <book-dialog
+      v-model="selectedBookOpen"
+      :book="selectedBook"
+      @close="selectedBookOpen = false"
+    />
   </q-page>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
+
+import BookDialog from "@/components/Guest/BookDialog.vue";
 
 import _ from "lodash";
 
@@ -111,6 +123,9 @@ const selectedUser = ref(null);
 const showEditDialog = ref(false);
 const isPwd = ref(true);
 const showBooks = ref(false);
+
+const selectedBookOpen = ref(false);
+const selectedBook = ref(null);
 
 const isAdmin = (user) => {
   return user.roles.filter((role) => role.name === "admin").length > 0;

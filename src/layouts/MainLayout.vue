@@ -1,9 +1,10 @@
 <template>
-  <q-layout view="lhh Lpr lFf">
+  <q-layout view="lhh Lpr lff">
     <header-component
       @toggleLeftDrawer="toggleLeftDrawer"
       @toggleLoginDialog="toggleLoginDialog"
     />
+    <footer-component />
     <main-drawer
       v-model="leftDrawerOpen"
       @toggleLoginDialog="toggleLoginDialog"
@@ -20,9 +21,10 @@
 <script setup>
 import { ref } from "vue";
 
-import HeaderComponent from "src/components/Shared/HeaderComponent.vue";
-import MainDrawer from "src/components/Shared/MainDrawer.vue";
-import LoginDialog from "src/components/Login/LoginDialog.vue";
+import HeaderComponent from "@/components/Shared/HeaderComponent.vue";
+import FooterComponent from "@/components/Shared/FooterComponent.vue";
+import MainDrawer from "@/components/Shared/MainDrawer.vue";
+import LoginDialog from "@/components/Login/LoginDialog.vue";
 
 const leftDrawerOpen = ref(false);
 const loginDialogOpen = ref(false);

@@ -5,6 +5,12 @@ export default {
     return apiService
       .get("/admin/users")
       .then((response) => {
+        const users = response.data;
+        users.map((user) => {
+          user.books.map((book) => {
+            book.images = JSON.parse(book.images);
+          });
+        });
         return response.data;
       })
       .catch(() => {
@@ -18,7 +24,7 @@ export default {
       admin,
     };
 
-    if (password && password.length > 0) {
+    if (password && password.trim().length > 0) {
       data.password = password;
     }
 

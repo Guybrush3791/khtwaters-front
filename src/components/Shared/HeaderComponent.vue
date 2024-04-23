@@ -10,7 +10,7 @@
         @click="toggleLeftDrawer"
       />
 
-      <q-toolbar-title> LibraLuxe </q-toolbar-title>
+      <q-toolbar-title> LibraLux </q-toolbar-title>
 
       <q-img src="~/assets/icons/libra-luxe.png" alt="Login" width="24px" />
     </q-toolbar>
