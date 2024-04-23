@@ -69,7 +69,23 @@
               label="Admin"
               color="primary"
             />
-
+            <!-- list of books -->
+            <q-list bordered separator>
+              <q-toolbar class="bg-grey-5" @click="showBooks = !showBooks">
+                <q-toolbar-title>Books</q-toolbar-title>
+                <span v-if="showBooks">-</span>
+                <span v-else>+</span>
+              </q-toolbar>
+              <div v-if="showBooks">
+                <q-item
+                  v-for="book in selectedUser.books"
+                  :key="book.id"
+                  class="q-my-none"
+                >
+                  <q-item-section>{{ book.name }}</q-item-section>
+                </q-item>
+              </div>
+            </q-list>
             <q-card-actions class="justify-end">
               <q-btn flat label="Cancel" @click="showEditDialog = false" />
               <q-btn flat label="Update" class="text-primary" type="submit" />
@@ -94,6 +110,7 @@ const users = ref([]);
 const selectedUser = ref(null);
 const showEditDialog = ref(false);
 const isPwd = ref(true);
+const showBooks = ref(false);
 
 const isAdmin = (user) => {
   return user.roles.filter((role) => role.name === "admin").length > 0;
