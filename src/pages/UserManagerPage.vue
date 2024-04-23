@@ -109,6 +109,7 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 import BookDialog from "@/components/Guest/BookDialog.vue";
 
@@ -116,6 +117,8 @@ import _ from "lodash";
 
 import adminService from "src/services/adminService";
 import loginService from "src/services/loginService";
+
+const $router = useRouter();
 
 const me = ref(null);
 const users = ref([]);
@@ -159,7 +162,14 @@ const loadUsers = async () => {
 };
 
 onMounted(async () => {
-  me.value = await loginService.getMe();
-  loadUsers();
+  try {
+    me.value = await loginService.getMe();
+
+    if (me.value === false) throw new Error("Not logged in");
+
+    loadUsers();
+  } catch (error) {
+    $router.push("/");
+  }
 });
 </script>

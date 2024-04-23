@@ -1,11 +1,14 @@
-$primary: #1976d2;
-$secondary: #26a69a;
-$accent: #9c27b0;
+/* Primary palette */
+$primary: #1976d2; /* Deep blue */
+$secondary: #26c6da; /* Cyan */
+$accent: #ec407a; /* Pink */
 
-$dark: #1d1d1d;
-$dark-page: #121212;
+/* Neutral dark shades */
+$dark: #212121; /* Dark grey for text and primary elements in dark mode */
+$dark-page: #121212; /* Almost black for background in dark mode */
 
-$positive: #21ba45;
-$negative: #c10015;
-$info: #31ccec;
-$warning: #f2c037;
+/* Status colors */
+$positive: #66bb6a; /* Lighter green, better for visibility */
+$negative: #ef5350; /* Bright red, maintains urgency but is less harsh */
+$info: #29b6f6; /* Brighter blue, ensures good readability */
+$warning: #ffa726; /* Milder orange, visible but not alarming */

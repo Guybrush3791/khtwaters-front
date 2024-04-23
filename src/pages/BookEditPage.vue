@@ -102,6 +102,7 @@ import { useQuasar } from "quasar";
 
 import ImageEditDialog from "@/components/Book/ImageEditDialog.vue";
 
+import loginService from "@/services/loginService";
 import userService from "@/services/userService";
 import resourceService from "@/services/resourceService";
 
@@ -185,6 +186,14 @@ const onRejected = (rejectedEntries) => {
   });
 };
 onMounted(async () => {
+  try {
+    const user = await loginService.getMe();
+
+    if (user === false) throw new Error("Not logged in");
+  } catch (error) {
+    $router.push("/");
+  }
+
   if (edit) {
     const data = await userService.getMyBookById(id);
 

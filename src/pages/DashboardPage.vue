@@ -64,9 +64,13 @@ const deleteBook = async (id) => {
 };
 
 onMounted(async () => {
-  user.value = await loginService.getMe();
-  userBooks.value = await userService.getMyBooks();
+  try {
+    user.value = await loginService.getMe();
+    userBooks.value = await userService.getMyBooks();
 
-  loaded.value = true;
+    loaded.value = true;
+  } catch (error) {
+    $router.push("/");
+  }
 });
 </script>

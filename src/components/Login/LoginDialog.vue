@@ -2,7 +2,9 @@
   <q-dialog v-model="openDialog.value">
     <q-card>
       <q-card-section>
-        <div class="text-h6">Login</div>
+        <div class="text-h6">
+          {{ openDialog.type === "register" ? "Register" : "Login" }}
+        </div>
       </q-card-section>
       <q-card-section>
         <q-form
@@ -32,7 +34,7 @@
             label="Wrong data or user already exists"
           />
           <q-card-actions align="right" class="">
-            <q-btn flat label="Cancel" @click="onToggleRegister" />
+            <q-btn flat label="Cancel" @click="openDialog.value = false" />
             <q-btn flat label="Register" class="text-primary" type="submit" />
           </q-card-actions>
         </q-form>
@@ -59,6 +61,7 @@
             label="Wrong password or username"
           />
           <q-card-actions align="right" class="">
+            <q-btn flat label="Cancel" @click="openDialog.value = false" />
             <q-btn flat label="Register" @click="onToggleRegister" />
             <q-btn flat label="Login" class="text-primary" type="submit" />
           </q-card-actions>
@@ -70,11 +73,8 @@
 
 <script setup>
 import { ref, watch } from "vue";
-import { useRouter } from "vue-router";
 
 import loginService from "@/services/loginService";
-
-const $router = useRouter();
 
 const openDialog = defineModel();
 watch(openDialog, (val) => {

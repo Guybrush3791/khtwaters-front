@@ -101,10 +101,12 @@ const onSubmit = async () => {
 };
 
 onMounted(async () => {
-  me.value = await loginService.getMe();
+  try {
+    me.value = await loginService.getMe();
 
-  if (me.value?.id ?? false) {
-    console.log("Not logged in");
+    if (me.value === false) throw new Error("Not logged in");
+  } catch (error) {
+    $router.push("/");
   }
 });
 </script>

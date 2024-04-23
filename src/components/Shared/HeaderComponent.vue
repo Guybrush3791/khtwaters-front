@@ -2,6 +2,7 @@
   <q-header elevated>
     <q-toolbar>
       <q-btn
+        v-if="$q.screen.lt.md"
         flat
         dense
         round
@@ -22,8 +23,5 @@ const emits = defineEmits(["toggleLeftDrawer", "toggleLoginDialog"]);
 
 const toggleLeftDrawer = () => {
   emits("toggleLeftDrawer");
-};
-const toggleLoginDialog = () => {
-  emits("toggleLoginDialog");
 };
 </script>
